@@ -3,4 +3,5 @@
         crossorigin />
     <h2 class="listing-heading">{{ casettaRicevuta.name }}</h2>
     <p class="listing-location">{{ casettaRicevuta.city }}, {{ casettaRicevuta.state }}</p>
+    <a [routerLink]="['/details', casettaRicevuta.id]">Learn More</a>
 </section>

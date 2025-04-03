@@ -1,41 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { HousingLocationComponent } from '../housing-location/housing-location.component';
-import { HousingLocation } from '../housinglocation';
-import {HousingService} from '../housing.service';
+import {Injectable} from '@angular/core';
+import { HousingLocation } from '../../model/housinglocation';
 
-@Component({
-  selector: 'app-home',
-  imports: [CommonModule, HousingLocationComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+
+@Injectable({
+  providedIn: 'root',
 })
-export class HomeComponent {
+export class HousingService {
 
-  casettaList: HousingLocation[] = [];
+  readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
 
-  casettaService: HousingService = inject(HousingService);
-
-  constructor() {
-    this.casettaList = this.casettaService.getAllHousingLocations();
-  }
-
-
-
-
- /*  readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common'; */
-
-  /* casetta: HousingLocation = {
-    id: 9999,
-    name: 'Test Home',
-    city: 'Test city',
-    state: 'ST',
-    photo: `${this.baseUrl}/example-house.jpg`,
-    availableUnits: 99,
-    wifi: true,
-    laundry: false,
-  }; */
-  /* casettaList: HousingLocation[] = [
+  protected casettaList: HousingLocation[] = [
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -136,6 +110,16 @@ export class HomeComponent {
       wifi: true,
       laundry: true,
     },
-  ]; */
+  ];
+  getAllHousingLocations(): HousingLocation[] {
+    return this.casettaList;
+  }
+  getHousingLocationById(id: number): HousingLocation | undefined {
+    return this.casettaList.find((casetta) => casetta.id === id);
+  }
+  submitApplication(firstName: string, lastName: string, email: string) {   
+     console.log(    
+        `Homes application received: firstName: ${firstName}, lastName: ${lastName}, email: ${email}.`,    
+      ); 
+   }
 }
-

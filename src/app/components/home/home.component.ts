@@ -1,14 +1,52 @@
-import {Injectable} from '@angular/core';
-import {HousingLocation} from './housinglocation';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { HousingLocationComponent } from '../housing-location/housing-location.component';
+import { HousingLocation } from '../../model/housinglocation';
+import { HousingService } from '../../services/housing/housing.service';
 
-@Injectable({
-  providedIn: 'root',
+@Component({
+  selector: 'app-home',
+  imports: [CommonModule, HousingLocationComponent],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
-export class HousingService {
+export class HomeComponent {
 
-  readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
+  casettaList: HousingLocation[] = [];
 
-  protected casettaList: HousingLocation[] = [
+  casettaService: HousingService = inject(HousingService);
+  listaCasetteFiltrate: HousingLocation[] = [];
+
+
+  constructor() {
+    this.casettaList = this.casettaService.getAllHousingLocations();
+    this.listaCasetteFiltrate = this.casettaList;
+  }
+
+  filterResults(text: string) {
+    if (!text) {
+      this.listaCasetteFiltrate = this.casettaList;
+      return;
+    }
+    this.listaCasetteFiltrate = this.casettaList.filter((casetta) =>
+      casetta?.city.toLowerCase().includes(text.toLowerCase()),);
+  }
+
+
+
+  /*  readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common'; */
+
+  /* casetta: HousingLocation = {
+    id: 9999,
+    name: 'Test Home',
+    city: 'Test city',
+    state: 'ST',
+    photo: `${this.baseUrl}/example-house.jpg`,
+    availableUnits: 99,
+    wifi: true,
+    laundry: false,
+  }; */
+  /* casettaList: HousingLocation[] = [
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -109,11 +147,6 @@ export class HousingService {
       wifi: true,
       laundry: true,
     },
-  ];
-  getAllHousingLocations(): HousingLocation[] {
-    return this.casettaList;
-  }
-  getHousingLocationById(id: number): HousingLocation | undefined {
-    return this.casettaList.find((casetta) => casetta.id === id);
-  }
+  ]; */
 }
+
